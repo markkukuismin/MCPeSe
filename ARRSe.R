@@ -1,0 +1,77 @@
+
+ARRSe = function(est, n=NULL, M=NULL){
+  
+  # Accept-Rejest Regularization Selection
+  
+  # est = huge object estimated with Glasso
+  
+  if(is.null(est$loglik)) stop("No log-likelihood")
+  
+  if(is.null(n)) stop("Set the sample size n")
+  
+  if(is.null(M)) M = 1000
+  
+  p = ncol(est$data)
+  
+  RemoveInfinite = c(which(est$loglik == Inf), which(est$loglik == -Inf)) 
+  
+  rho = est$lambda
+  
+  nlambda = length(rho)
+  
+  if(length(RemoveInfinite) > 0){
+    
+    rho = rho[-RemoveInfinite]
+    
+    nlambda = length(rho)
+    est$path = est$path[-RemoveInfinite]
+    est$lambda = est$lambda[-RemoveInfinite]
+    est$icov = est$icov[-RemoveInfinite]
+    est$df = est$df[-RemoveInfinite]
+    est$sparsity = est$sparsity[-RemoveInfinite]
+    est$loglik = est$loglik[-RemoveInfinite]
+    
+  }
+  
+  # Accept-reject algorithm:
+  
+  Target = rep(0,nlambda)
+  
+  for(i in 1:nlambda){
+    
+    Target[i] = p*(p + 1)*log(n*est$lambda[i]/2) - n*est$lambda[i]*sum(abs(est$icov[[i]])) 
+    # logarithm of the conditional posterior of the tuning parameter
+    
+  }
+  
+  g = 1/(max(rho) - min(rho))
+  
+  Target = Target + log(g)
+  
+  Max = max(Target)*g
+  
+  Propose = sample(1:nlambda, M, replace=T)
+  U = runif(M, 0, Max) 
+  
+  # Hox! U is not the true logartihm transform we need log(exp(Max)*u) but it has the same maximum value and the most extreme
+  # upper quantiles are probably close to each other...
+  
+  Target = Target[Propose]
+  
+  indx = Propose[U <= Target] # No log-likelihood at all!
+  
+  rhos = rho[indx] 
+  
+  est = list()
+  
+  est$indx = indx
+  
+  est$rhos = rhos
+  
+  est$accept.rate = length(indx)/M
+  
+  est$n = n
+  
+  return(est)
+  
+}
