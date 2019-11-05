@@ -53,13 +53,19 @@ ARSelect = ARRSe(L, n=n, M=1000)
 
 names(ARSelect)
 
+[1] "indx"        "rhos"        "accept.rate" "n"  
+
 rhos = ARSelect$rhos
 
 ARSelect$accept.rate
 
+[1] 0.341
+
 # Either use the mean of rho values...
 
 mean(rhos)
+
+[1] 0.2397052
 
 #ThetaARSelect = huge(Y, lambda=mean(rhos), method="glasso")
 #ThetaARRSe = as.matrix(ThetaARSelect$icov[[1]])
