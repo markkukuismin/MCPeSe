@@ -1,5 +1,5 @@
 
-ARRSe = function(est, n=NULL, M=NULL){
+ARRSe = function(est, n=NULL, M=NULL, g=NULL){
   
   # Accept-Rejest Regularization Selection
   
@@ -10,6 +10,10 @@ ARRSe = function(est, n=NULL, M=NULL){
   if(is.null(n)) stop("Set the sample size n")
   
   if(is.null(M)) M = 1000
+  
+  if(is.null(g)) g = function(rho) 1/(max(rho) - min(rho))
+  
+  if(!is.null(g)) g = match.fun(g)
   
   p = ncol(est$data)
   
@@ -44,11 +48,11 @@ ARRSe = function(est, n=NULL, M=NULL){
     
   }
   
-  g = 1/(max(rho) - min(rho))
+  #g = 1/(max(rho) - min(rho))
   
-  Target = Target + log(g)
+  Target = Target + log(g(rho))
   
-  Max = max(Target)*g
+  Max = max(Target)*g(rho)
   
   Propose = sample(1:nlambda, M, replace=T)
   U = runif(M, 0, Max) 
