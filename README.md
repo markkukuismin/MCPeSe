@@ -49,6 +49,8 @@ L = huge(HugeData$data, nlambda=nlambda, method="glasso")
 
 # Run ARRSe:
 
+# The default proposal distribution is 1/(max(rho) - min(rho)). Other density functions can also be applied: g = function(x) ...
+
 ARSelect = ARRSe(L, n=n, M=1000)
 
 names(ARSelect)
