@@ -48,9 +48,9 @@ ARRSe = function(est, n=NULL, M=NULL, g=NULL){
     
   }
   
-  #g = 1/(max(rho) - min(rho))
+  pg = 1/(max(rho) - min(rho))
   
-  Target = Target + log(g(rho))
+  Target = Target + log(pg)
   
   Max = max(Target)*g(rho)
   
