@@ -50,7 +50,7 @@ ARRSe = function(est, n=NULL, M=NULL, g=NULL){
   
   pg = 1/(max(rho) - min(rho))
   
-  Target = Target + log(pg)
+  Target = Target + 2*log(pg)
   
   Max = max(Target)*g(rho)
   
