@@ -5,15 +5,27 @@ ARRSe = function(est, n=NULL, M=NULL, g=NULL){
   
   # est = huge object estimated with Glasso
   
+  # n = sample size
+  
+  # M = nmb of A-R samples
+  
+  # g = candidate density
+  
   if(is.null(est$loglik)) stop("No log-likelihood")
   
   if(is.null(n)) stop("Set the sample size n")
   
   if(is.null(M)) M = 1000
   
-  if(is.null(g)) g = function(rho) 1/(max(rho) - min(rho))
+  if(!is.null(g)){
+    g = match.fun(g)
+    gind = T
+  }
   
-  if(!is.null(g)) g = match.fun(g)
+  if(is.null(g)){
+    g = function(rho) 1/(max(rho) - min(rho))
+    gind = F
+  }
   
   p = ncol(est$data)
   
@@ -55,6 +67,29 @@ ARRSe = function(est, n=NULL, M=NULL, g=NULL){
   Max = max(Target)*g(rho)
   
   Propose = sample(1:nlambda, M, replace=T)
+  
+  if(gind == T){
+  
+	Mg = max(g(rho))
+
+	s = rho[Propose]
+
+	s = Propose[runif(length(s)) <= g(s)/Mg]
+
+	IndProp = sample(1:nlambda, 1, replace = T)
+
+	while(length(s) < M){
+  
+		if(runif(1) <= g(rho[IndProp])/Mg) s = c(s, IndProp)
+  
+		IndProp = sample(1:nlambda, 1, replace = T)
+  
+	}
+  
+	Propose = s
+  
+  }
+  
   U = runif(M, 0, Max) 
   
   # Hox! U is not the true logartihm transform we need log(exp(Max)*u) but it has the same maximum value and the most extreme
