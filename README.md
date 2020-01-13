@@ -1,3 +1,5 @@
+![GitHub](https://img.shields.io/github/license/markkukuismin/ARRSe)
+
 # ARRSe
 Accept-Reject Regularization Selection (ARRSe) for graphical lasso.
 
