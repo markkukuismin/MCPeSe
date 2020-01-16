@@ -1,17 +1,17 @@
-![GitHub](https://img.shields.io/github/license/markkukuismin/ARRSe)
+![GitHub](https://img.shields.io/github/license/markkukuismin/ARPS)
 
-# ARRSe
-Accept-Reject Regularization Selection (ARRSe) for graphical lasso.
+# ARPS
+Accept-Reject Penlaty Selection (ARPS) for graphical lasso.
 
 # Example
 
-ARRSe is compatible with the R package "huge".
+ARPS is compatible with the R package "huge".
 
 ```r
 
 library(huge)
 
-source("ARRSe.R")
+source("ARPS.R")
 
 ##########################################################
 
@@ -49,13 +49,13 @@ L = huge(HugeData$data, nlambda=nlambda, method="glasso")
 
 ##########################################################
 
-# Run ARRSe:
+# Run ARPS:
 
 # The default proposal distribution is 1/(max(rho) - min(rho)). 
 
 # Other density functions can also be applied: g = function(x) ...
 
-ARSelect = ARRSe(L, n=n, M=1000)
+ARSelect = ARPS(L, n=n, M=1000)
 
 names(ARSelect)
 
@@ -74,13 +74,13 @@ mean(rhos)
 [1] 0.2397052
 
 #ThetaARSelect = huge(Y, lambda=mean(rhos), method="glasso")
-#ThetaARRSe = as.matrix(ThetaARSelect$icov[[1]])
+#ThetaARPS = as.matrix(ThetaARSelect$icov[[1]])
 
 # ... or pick the value from the solution path which is closest to the mean value:
 
 d = abs(mean(rhos) - L$lambda)
 
-optARRSelambdaIndx = which.min(d)[length(which.min(d))] # This is sup{i : rho[i] <= mean(rhos)}
+optARPSlambdaIndx = which.min(d)[length(which.min(d))] # This is sup{i : rho[i] <= mean(rhos)}
 
 huge.plot(HugeData$theta)
 
@@ -89,9 +89,9 @@ title("Ground truth")
 ![GitHubDemoGroundTruth](https://user-images.githubusercontent.com/40263834/68211077-87a46a80-ffdf-11e9-915b-fef820af900e.png)
 
 ```r
-huge.plot(L$path[[optARRSelambdaIndx]])
+huge.plot(L$path[[optARPSlambdaIndx]])
 
-title("ARRSe")
+title("ARPS")
 ```
-![GitHubDemoARRSe](https://user-images.githubusercontent.com/40263834/68211099-95f28680-ffdf-11e9-95e1-9e5514f871e6.png)
+![GitHubDemoARPS](https://user-images.githubusercontent.com/40263834/68211099-95f28680-ffdf-11e9-95e1-9e5514f871e6.png)
 
