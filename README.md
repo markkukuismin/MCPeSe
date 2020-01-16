@@ -93,5 +93,5 @@ huge.plot(L$path[[optARPSlambdaIndx]])
 
 title("ARPS")
 ```
-![GitHubDemoARPS](https://user-images.githubusercontent.com/40263834/68211099-95f28680-ffdf-11e9-95e1-9e5514f871e6.png)
+
 
