@@ -95,3 +95,11 @@ title("ARPS")
 ```
 ![GitHubDemoARPS](https://user-images.githubusercontent.com/40263834/72513292-9c11a880-3855-11ea-9608-269a259fcd41.jpeg)
 
+# Reference
+
+The ARPS method is described in:
+
+Kuismin and Sillanpaa (manuscript) "ARPS: Accept-reject penalty selection for graphical lasso".
+
+File "CodeCollection.zip" is a collection of scripts used to prepare the material in this paper.
+
