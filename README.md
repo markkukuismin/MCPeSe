@@ -80,7 +80,7 @@ mean(rhos)
 
 d = abs(mean(rhos) - L$lambda)
 
-optARPSlambdaIndx = which.min(d)[length(which.min(d))] # This is sup{i : rho[i] <= mean(rhos)}
+optARPSlambdaIndx = which.min(d)[length(which.min(d))]
 
 huge.plot(HugeData$theta)
 
