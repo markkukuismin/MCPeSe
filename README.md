@@ -5,13 +5,10 @@ Accept-Reject Penlaty Selection (ARPS) for graphical lasso.
 
 # Example
 
-ARPS is compatible with the R package "huge".
-
 ```r
-
 library(huge)
 
-source("ARPS.R")
+source("ARPS_v2.R")
 
 ##########################################################
 
@@ -37,7 +34,8 @@ n = 210
 
 Model = "hub"
 
-HugeData = huge.generator(n=n, d=p, graph=Model)
+HugeData = huge.generator(n=n, d=p, graph=Model) # Just the precision matrix corresponding to the graphical model of
+# interest is needed. Data is simulated later.
 
 nlambda = 100
 
@@ -49,51 +47,74 @@ L = huge(HugeData$data, nlambda=nlambda, method="glasso")
 
 ##########################################################
 
-# Run ARPS:
+# Run the A-R selection (uniform prior),
 
-# The default proposal distribution is 1/(max(rho) - min(rho)). 
-
-# Other density functions can also be applied: g = function(x) ...
-
-ARSelect = ARPS(L, n=n, M=1000)
+ARSelect = ARPS_v2(L, n=n, M=1000)
 
 names(ARSelect)
-
-[1] "indx"        "rhos"        "accept.rate" "n"  
 
 rhos = ARSelect$rhos
 
 ARSelect$accept.rate
 
-[1] 0.341
+##########################################################
 
+# Run the M-H selection (uniform prior),
+
+MHSelect = ARPS_v2(L, n=n, nSteps=1000, method="M-H")
+
+names(MHSelect)
+
+rhos = MHSelect$rhos
+
+MHSelect$accept.rate
+
+plot(rhos, type="l")
+
+##########################################################
+```
+
+![MHMCMCSample](https://user-images.githubusercontent.com/40263834/81556858-b38c1880-9393-11ea-8eda-50274a57d9a6.png)
+
+```r
 # Either use the mean of rho values...
 
 mean(rhos)
 
-[1] 0.2397052
-
 #ThetaARSelect = huge(Y, lambda=mean(rhos), method="glasso")
-#ThetaARPS = as.matrix(ThetaARSelect$icov[[1]])
+#ThetaAR = as.matrix(ThetaARSelect$icov[[1]])
 
-# ... or pick the value from the solution path which is closest to the mean value:
+# ... or pick the smallest tuning parameter value from the solution path
+# which is larger or equal to the mean value:
 
-d = abs(mean(rhos) - L$lambda)
+optARrhoIndx = ARSelect$opt.index # This is sup{i : rho[i] >= mean(rhos)}
 
-optARPSlambdaIndx = which.min(d)[length(which.min(d))]
+optMHrhoIndx = MHSelect$opt.index
 
 huge.plot(HugeData$theta)
 
 title("Ground truth")
+
+##########################################################
 ```
-![GitHubDemoGroundTruth](https://user-images.githubusercontent.com/40263834/68211077-87a46a80-ffdf-11e9-915b-fef820af900e.png)
+
+![GroundTruthGraph](https://user-images.githubusercontent.com/40263834/81557077-0f56a180-9394-11ea-8827-84b046cbf667.png)
 
 ```r
-huge.plot(L$path[[optARPSlambdaIndx]])
+huge.plot(L$path[[optARrhoIndx]])
 
-title("ARPS")
+title("Accept-Reject sampling")
+
+##########################################################
 ```
-![GitHubDemoARPS](https://user-images.githubusercontent.com/40263834/72513292-9c11a880-3855-11ea-9608-269a259fcd41.jpeg)
+![ARGraph](https://user-images.githubusercontent.com/40263834/81557112-1d0c2700-9394-11ea-9883-a7e72507c12f.png)
+
+```r
+huge.plot(L$path[[optMHrhoIndx]])
+
+title("Metropolis-Hastings sampling")
+```
+![MHGraph](https://user-images.githubusercontent.com/40263834/81557140-272e2580-9394-11ea-8cb0-054910e678b2.png)
 
 # Reference
 
