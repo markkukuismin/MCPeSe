@@ -1,7 +1,7 @@
 ![GitHub](https://img.shields.io/github/license/markkukuismin/ARPS)
 
 # MCPeSe
-Monte Carlo Penlaty Selection (MCPeSe) for graphical lasso.
+Monte Carlo Penalty Selection (MCPeSe) for graphical lasso.
 
 # Example
 
