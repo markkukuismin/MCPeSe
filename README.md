@@ -120,7 +120,7 @@ title("Metropolis-Hastings sampling")
 
 The MCPeSe method is described in:
 
-Kuismin and Sillanpaa (manuscript) "MCPeSe: Monter Carlo penalty selection for graphical lasso".
+Kuismin and Sillanpaa (manuscript) "MCPeSe: Monte Carlo penalty selection for graphical lasso".
 
 File "CodeCollection.zip" is a collection of scripts used to prepare the material in this paper.
 
