@@ -1,14 +1,14 @@
 ![GitHub](https://img.shields.io/github/license/markkukuismin/ARPS)
 
-# ARPS
-Accept-Reject Penlaty Selection (ARPS) for graphical lasso.
+# MCPeSe
+Monte Carlo Penlaty Selection (MCPeSe) for graphical lasso.
 
 # Example
 
 ```r
 library(huge)
 
-source("ARPS_v2.R")
+source("mcpese.R")
 
 ##########################################################
 
@@ -49,7 +49,7 @@ L = huge(HugeData$data, nlambda=nlambda, method="glasso")
 
 # Run the A-R selection (uniform prior),
 
-ARSelect = ARPS_v2(L, n=n, M=1000)
+ARSelect = mcpese(L, n=n, M=1000)
 
 names(ARSelect)
 
@@ -61,7 +61,7 @@ ARSelect$accept.rate
 
 # Run the M-H selection (uniform prior),
 
-MHSelect = ARPS_v2(L, n=n, nSteps=1000, method="M-H")
+MHSelect = mcpese(L, n=n, nSteps=1000, method="M-H")
 
 names(MHSelect)
 
@@ -118,9 +118,9 @@ title("Metropolis-Hastings sampling")
 
 # Reference
 
-The ARPS method is described in:
+The MCPeSe method is described in:
 
-Kuismin and Sillanpaa (manuscript) "ARPS: Accept-reject penalty selection for graphical lasso".
+Kuismin and Sillanpaa (manuscript) "MCPeSe: Monter Carlo penalty selection for graphical lasso".
 
 File "CodeCollection.zip" is a collection of scripts used to prepare the material in this paper.
 
