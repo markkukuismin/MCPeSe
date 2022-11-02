@@ -34,8 +34,7 @@ n = 210
 
 Model = "hub"
 
-HugeData = huge.generator(n=n, d=p, graph=Model) # Just the precision matrix corresponding to the graphical model of
-# interest is needed. Data is simulated later.
+HugeData = huge.generator(n=n, d=p, graph=Model) 
 
 nlambda = 100
 
